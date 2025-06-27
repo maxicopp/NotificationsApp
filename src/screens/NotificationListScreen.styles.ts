@@ -52,6 +52,7 @@ export const notificationListStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    padding: 4,
   },
   clearButton: {
     borderRadius: 16,
