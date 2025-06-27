@@ -222,8 +222,8 @@ export const NotificationListScreen: React.FC = () => {
         }
         contentContainerStyle={
           notifications.length === 0
-            ? notificationListStyles.flexOne
-            : undefined
+            ? [notificationListStyles.flexOne, { paddingHorizontal: spacing.l }]
+            : { paddingHorizontal: spacing.l }
         }
       />
 

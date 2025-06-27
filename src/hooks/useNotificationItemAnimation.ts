@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 
 export const useNotificationItemAnimation = (timestamp: number) => {
   const [isNewItem, setIsNewItem] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export const useNotificationItemAnimation = (timestamp: number) => {
   return {
     isNewItem,
     animatedStyle: {
-      opacity: fadeAnim,
+      ...(Platform.OS === 'android' ? {} : { opacity: fadeAnim }),
       transform: [{ translateY: slideAnim }, { scale: scaleAnim }],
     },
   };
