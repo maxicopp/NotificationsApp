@@ -40,6 +40,11 @@ const componentStyles = StyleSheet.create({
   notFoundIcon: {
     fontSize: 32,
   },
+  backIconText: {
+    textAlign: 'center',
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
   notFoundTitle: {
     fontSize: 20,
     fontWeight: '600',
@@ -121,6 +126,14 @@ export const NotificationDetailScreen: React.FC = () => {
   const route = useRoute<NotificationDetailRouteProp>();
   const { markAsRead } = useNotifications();
   const { colors, isDark, spacing } = useTheme();
+
+  const statusBarHeight =
+    Platform.OS === 'android' ? StatusBar.currentHeight ?? 0 : 0;
+
+  const headerHeight =
+    Platform.OS === 'android'
+      ? statusBarHeight + spacing.m + 44 + spacing.m
+      : undefined;
 
   const notification = route.params?.notification;
 
@@ -220,7 +233,9 @@ export const NotificationDetailScreen: React.FC = () => {
             ? componentStyles.headerDynamic
             : componentStyles.headerFixed,
           {
-            paddingTop: Platform.OS === 'ios' ? spacing.m : spacing.xl,
+            paddingTop:
+              Platform.OS === 'ios' ? spacing.m : statusBarHeight + spacing.m,
+            height: headerHeight,
           },
         ]}
       >
@@ -235,10 +250,14 @@ export const NotificationDetailScreen: React.FC = () => {
           <Text
             style={[
               Styles.notificationDetail.backIcon,
-              { color: colors.primary },
+              componentStyles.backIconText,
+              {
+                color: colors.primary,
+                ...(Platform.OS === 'android' && { lineHeight: 20 }),
+              },
             ]}
           >
-            ←
+            ❮
           </Text>
         </TouchableOpacity>
 

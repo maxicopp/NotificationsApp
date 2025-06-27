@@ -1,4 +1,4 @@
-import {StyleSheet, Appearance} from 'react-native';
+import { StyleSheet, Appearance } from 'react-native';
 
 // =====================================================
 //          PALETAS DE COLORES
@@ -106,7 +106,7 @@ export const Shadow = {
   // Nivel 1: Cards normales
   level1: {
     shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
     elevation: 2,
@@ -115,7 +115,7 @@ export const Shadow = {
   // Nivel 2: FAB y elementos flotantes
   level2: {
     shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 8,
@@ -415,20 +415,20 @@ export const AnimationConfig = {
 
   // Valores para animaciones de entrada
   entrance: {
-    translateY: {from: 10, to: 0},
-    opacity: {from: 0, to: 1},
-    scale: {from: 0.9, to: 1.0},
+    translateY: { from: 10, to: 0 },
+    opacity: { from: 0, to: 1 },
+    scale: { from: 0.9, to: 1.0 },
   },
 
   // Valores para animaciones de FAB
   fab: {
-    scale: {from: 0, to: 1},
-    opacity: {from: 0, to: 1},
+    scale: { from: 0, to: 1 },
+    opacity: { from: 0, to: 1 },
   },
 
   // Valores para animaciones de press
   press: {
-    scale: {from: 1.0, to: 0.96},
+    scale: { from: 1.0, to: 0.96 },
   },
 };
 
