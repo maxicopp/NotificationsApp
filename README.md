@@ -78,3 +78,9 @@ yarn android        # Ejecutar en Android
 yarn ios           # Ejecutar en iOS
 yarn lint          # Verificar código con ESLint
 ```
+
+## Imágenes
+<img width="1087" alt="Screenshot 2025-06-27 at 5 26 21 PM" src="https://github.com/user-attachments/assets/7836d5e9-6c88-441e-808e-c8d7f7f0d55f" />
+<img width="1109" alt="Screenshot 2025-06-27 at 5 26 10 PM" src="https://github.com/user-attachments/assets/af88ee77-2b83-410e-83f7-adbe45aa90b3" />
+<img width="1235" alt="Screenshot 2025-06-27 at 5 25 51 PM" src="https://github.com/user-attachments/assets/8a01c3cb-2cc4-4779-a492-1c000caa4532" />
+
