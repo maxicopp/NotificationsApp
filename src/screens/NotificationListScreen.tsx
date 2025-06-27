@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import {
   useNotifications,
   useNotificationRefresh,
 } from '../context/NotificationContext';
+import { useFabAnimation, useNotificationActions } from '../hooks';
 import { NotificationItem } from '../components/NotificationItem';
 import { Badge } from '../components/Badge';
 import { Notification, RootStackParamList } from '../types';
@@ -185,17 +186,11 @@ const ListHeaderComponent: React.FC<ListHeaderProps> = ({
 
 export const NotificationListScreen: React.FC = () => {
   const navigation = useNavigation<NotificationListNavigationProp>();
-  const {
-    notifications,
-    unreadCount,
-    generateTestNotification,
-    clearAllNotifications,
-  } = useNotifications();
+  const { notifications, unreadCount } = useNotifications();
   const { handleRefresh, isRefreshing, canRefresh } = useNotificationRefresh();
+  const { handleGenerateTest, handleClearAll } = useNotificationActions();
+  const { fabScaleAnim, animateFabPress } = useFabAnimation();
   const { colors, isDark, spacing } = useTheme();
-
-  // Animaciones para FAB
-  const fabScaleAnim = useRef(new Animated.Value(1)).current;
 
   const renderNotificationItem = ({ item }: { item: Notification }) => (
     <NotificationItem
@@ -262,7 +257,7 @@ export const NotificationListScreen: React.FC = () => {
             backgroundColor: colors.primary,
           },
         ]}
-        onPress={generateTestNotification}
+        onPress={handleGenerateTest}
         activeOpacity={0.8}
       >
         <Text style={componentStyles.emptyButtonText}>
@@ -273,20 +268,9 @@ export const NotificationListScreen: React.FC = () => {
   );
 
   const handleFabPress = () => {
-    Animated.sequence([
-      Animated.timing(fabScaleAnim, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(fabScaleAnim, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start();
-
-    generateTestNotification();
+    animateFabPress(() => {
+      handleGenerateTest();
+    });
   };
 
   const showClearButton = notifications.length > 0;
@@ -315,7 +299,7 @@ export const NotificationListScreen: React.FC = () => {
             spacing={spacing}
             unreadCount={unreadCount}
             showClearButton={showClearButton}
-            onClearAll={clearAllNotifications}
+            onClearAll={handleClearAll}
           />
         }
         ListEmptyComponent={renderEmptyState}

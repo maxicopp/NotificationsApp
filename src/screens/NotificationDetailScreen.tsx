@@ -14,6 +14,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useNotifications } from '../context/NotificationContext';
 import { Styles, useTheme, AlertEmojis, AlertColors } from '../theme';
+import { useDateFormatter } from '../hooks';
 
 type NotificationDetailNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -126,6 +127,7 @@ export const NotificationDetailScreen: React.FC = () => {
   const route = useRoute<NotificationDetailRouteProp>();
   const { markAsRead } = useNotifications();
   const { colors, isDark, spacing } = useTheme();
+  const { formatFullDate } = useDateFormatter();
 
   // Animación refs
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -222,19 +224,6 @@ export const NotificationDetailScreen: React.FC = () => {
   const emoji =
     AlertEmojis[notification.type as keyof typeof AlertEmojis] ||
     AlertEmojis.info;
-
-  const formatFullDate = (timestamp: number): string => {
-    const date = new Date(timestamp);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    };
-    return date.toLocaleDateString('es-ES', options);
-  };
 
   return (
     <SafeAreaView

@@ -1,10 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useRef,
-  useState,
-  useMemo,
-  useEffect,
-} from 'react';
+import React, { useLayoutEffect, useRef, useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -14,6 +8,7 @@ import {
 } from 'react-native';
 import { Notification } from '../types';
 import { Styles, useTheme, AlertEmojis, AlertColors } from '../theme';
+import { useNotificationItemAnimation, useDateFormatter } from '../hooks';
 
 interface NotificationItemProps {
   notification: Notification;
@@ -62,28 +57,6 @@ const componentStyles = StyleSheet.create({
   },
 });
 
-const formatTime = (timestamp: number): string => {
-  const date = new Date(timestamp);
-  const now = new Date();
-  const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-
-  if (diffInHours < 1) {
-    const diffInMinutes = Math.floor(diffInHours * 60);
-    return diffInMinutes <= 0 ? 'ahora' : `${diffInMinutes}m`;
-  } else if (diffInHours < 24) {
-    return `${Math.floor(diffInHours)}h`;
-  } else {
-    const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays === 1) {
-      return 'ayer';
-    }
-    if (diffInDays < 7) {
-      return `${diffInDays}d`;
-    }
-    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-  }
-};
-
 export const NotificationItem: React.FC<NotificationItemProps> = ({
   notification,
   onPress,
@@ -91,49 +64,10 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   const { colors } = useTheme();
   const itemRef = useRef<View>(null);
   const [itemHeight, setItemHeight] = useState<number>(0);
-  const [isNewItem, setIsNewItem] = useState<boolean>(false);
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(-50)).current;
-  const scaleAnim = useRef(new Animated.Value(0.9)).current;
-
-  useEffect(() => {
-    const now = Date.now();
-    const notificationAge = now - notification.timestamp;
-    const isNew = notificationAge < 2000;
-
-    setIsNewItem(isNew);
-
-    if (isNew) {
-      fadeAnim.setValue(0);
-      slideAnim.setValue(-50);
-      scaleAnim.setValue(0.9);
-
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.spring(slideAnim, {
-          toValue: 0,
-          tension: 100,
-          friction: 8,
-          useNativeDriver: true,
-        }),
-        Animated.spring(scaleAnim, {
-          toValue: 1,
-          tension: 100,
-          friction: 8,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    } else {
-      fadeAnim.setValue(1);
-      slideAnim.setValue(0);
-      scaleAnim.setValue(1);
-    }
-  }, [notification.timestamp, fadeAnim, slideAnim, scaleAnim]);
+  const { formatTime } = useDateFormatter();
+  const { isNewItem, animatedStyle } = useNotificationItemAnimation(
+    notification.timestamp,
+  );
 
   useLayoutEffect(() => {
     if (itemRef.current) {
@@ -172,12 +106,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   );
 
   return (
-    <Animated.View
-      style={{
-        opacity: fadeAnim,
-        transform: [{ translateY: slideAnim }, { scale: scaleAnim }],
-      }}
-    >
+    <Animated.View style={animatedStyle}>
       <TouchableOpacity
         ref={itemRef}
         style={[
