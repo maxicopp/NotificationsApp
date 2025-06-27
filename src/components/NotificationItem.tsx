@@ -1,5 +1,17 @@
-import React, { useLayoutEffect, useRef, useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {
+  useLayoutEffect,
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+} from 'react-native';
 import { Notification } from '../types';
 import { Styles, useTheme, AlertEmojis, AlertColors } from '../theme';
 
@@ -22,6 +34,13 @@ const componentStyles = StyleSheet.create({
   },
   unreadBorder: {
     borderWidth: 0.5,
+  },
+  newItemBorder: {
+    borderWidth: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   readOpacity: {
     opacity: 0.7,
@@ -72,6 +91,49 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   const { colors } = useTheme();
   const itemRef = useRef<View>(null);
   const [itemHeight, setItemHeight] = useState<number>(0);
+  const [isNewItem, setIsNewItem] = useState<boolean>(false);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(-50)).current;
+  const scaleAnim = useRef(new Animated.Value(0.9)).current;
+
+  useEffect(() => {
+    const now = Date.now();
+    const notificationAge = now - notification.timestamp;
+    const isNew = notificationAge < 2000;
+
+    setIsNewItem(isNew);
+
+    if (isNew) {
+      fadeAnim.setValue(0);
+      slideAnim.setValue(-50);
+      scaleAnim.setValue(0.9);
+
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          tension: 100,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          tension: 100,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      fadeAnim.setValue(1);
+      slideAnim.setValue(0);
+      scaleAnim.setValue(1);
+    }
+  }, [notification.timestamp, fadeAnim, slideAnim, scaleAnim]);
 
   useLayoutEffect(() => {
     if (itemRef.current) {
@@ -110,97 +172,105 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   );
 
   return (
-    <TouchableOpacity
-      ref={itemRef}
-      style={[
-        Styles.notificationItem.card,
-        cardStyle,
-        dynamicCardStyle,
-        notification.isRead ? {} : componentStyles.unreadBorder,
-      ]}
-      onPress={onPress}
-      activeOpacity={0.8}
+    <Animated.View
+      style={{
+        opacity: fadeAnim,
+        transform: [{ translateY: slideAnim }, { scale: scaleAnim }],
+      }}
     >
-      {!notification.isRead && (
+      <TouchableOpacity
+        ref={itemRef}
+        style={[
+          Styles.notificationItem.card,
+          cardStyle,
+          dynamicCardStyle,
+          notification.isRead ? {} : componentStyles.unreadBorder,
+          isNewItem ? componentStyles.newItemBorder : {},
+        ]}
+        onPress={onPress}
+        activeOpacity={0.8}
+      >
+        {!notification.isRead && (
+          <View
+            style={[
+              Styles.notificationItem.indicator,
+              { backgroundColor: alertColor },
+            ]}
+          />
+        )}
+
         <View
           style={[
-            Styles.notificationItem.indicator,
-            { backgroundColor: alertColor },
-          ]}
-        />
-      )}
-
-      <View
-        style={[
-          Styles.notificationItem.emojiContainer,
-          {
-            backgroundColor: notification.isRead
-              ? colors.background
-              : `${alertColor}15`,
-          },
-        ]}
-      >
-        <Text style={Styles.notificationItem.emoji}>{emoji}</Text>
-      </View>
-
-      <View style={Styles.notificationItem.textContainer}>
-        <Text
-          style={[
-            Styles.notificationItem.title,
+            Styles.notificationItem.emojiContainer,
             {
-              color: colors.textPrimary,
+              backgroundColor: notification.isRead
+                ? colors.background
+                : `${alertColor}15`,
             },
-            notification.isRead
-              ? componentStyles.readOpacity
-              : componentStyles.unreadOpacity,
           ]}
-          numberOfLines={1}
-          ellipsizeMode="tail"
         >
-          {notification.title}
-        </Text>
+          <Text style={Styles.notificationItem.emoji}>{emoji}</Text>
+        </View>
 
-        <Text
-          style={[
-            Styles.notificationItem.description,
-            {
-              color: colors.textSecondary,
-            },
-            notification.isRead
-              ? componentStyles.readDescriptionOpacity
-              : componentStyles.unreadDescriptionOpacity,
-          ]}
-          numberOfLines={2}
-          ellipsizeMode="tail"
-        >
-          {notification.description}
-        </Text>
-
-        <View style={componentStyles.timestampContainer}>
+        <View style={Styles.notificationItem.textContainer}>
           <Text
             style={[
-              Styles.notificationItem.timestamp,
+              Styles.notificationItem.title,
               {
-                color: colors.textTertiary,
+                color: colors.textPrimary,
               },
               notification.isRead
-                ? componentStyles.readTimestampOpacity
-                : componentStyles.unreadTimestampOpacity,
+                ? componentStyles.readOpacity
+                : componentStyles.unreadOpacity,
             ]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
-            {formatTime(notification.timestamp)}
+            {notification.title}
           </Text>
 
-          {!notification.isRead && (
-            <View
+          <Text
+            style={[
+              Styles.notificationItem.description,
+              {
+                color: colors.textSecondary,
+              },
+              notification.isRead
+                ? componentStyles.readDescriptionOpacity
+                : componentStyles.unreadDescriptionOpacity,
+            ]}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {notification.description}
+          </Text>
+
+          <View style={componentStyles.timestampContainer}>
+            <Text
               style={[
-                componentStyles.unreadDot,
-                { backgroundColor: alertColor },
+                Styles.notificationItem.timestamp,
+                {
+                  color: colors.textTertiary,
+                },
+                notification.isRead
+                  ? componentStyles.readTimestampOpacity
+                  : componentStyles.unreadTimestampOpacity,
               ]}
-            />
-          )}
+            >
+              {formatTime(notification.timestamp)}
+            </Text>
+
+            {!notification.isRead && (
+              <View
+                style={[
+                  componentStyles.unreadDot,
+                  { backgroundColor: alertColor },
+                ]}
+              />
+            )}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Animated.View>
   );
 };

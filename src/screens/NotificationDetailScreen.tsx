@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
   Platform,
   StyleSheet,
+  Animated,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -127,6 +127,11 @@ export const NotificationDetailScreen: React.FC = () => {
   const { markAsRead } = useNotifications();
   const { colors, isDark, spacing } = useTheme();
 
+  // Animación refs
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
+  const scaleAnim = useRef(new Animated.Value(0.95)).current;
+
   const statusBarHeight =
     Platform.OS === 'android' ? StatusBar.currentHeight ?? 0 : 0;
 
@@ -141,7 +146,25 @@ export const NotificationDetailScreen: React.FC = () => {
     if (notification && !notification.isRead) {
       markAsRead(notification.id);
     }
-  }, [notification, markAsRead]);
+
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [notification, markAsRead, fadeAnim, slideAnim, scaleAnim]);
 
   if (!notification) {
     return (
@@ -271,12 +294,18 @@ export const NotificationDetailScreen: React.FC = () => {
         </Text>
       </View>
 
-      <ScrollView
-        style={Styles.notificationDetail.scrollView}
+      <Animated.ScrollView
+        style={[
+          Styles.notificationDetail.scrollView,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }, { scale: scaleAnim }],
+          },
+        ]}
         showsVerticalScrollIndicator={false}
         bounces={true}
       >
-        <View
+        <Animated.View
           style={[
             Styles.notificationDetail.detailCard,
             { backgroundColor: colors.surface1 },
@@ -358,8 +387,8 @@ export const NotificationDetailScreen: React.FC = () => {
               )}
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </Animated.View>
+      </Animated.ScrollView>
     </SafeAreaView>
   );
 };

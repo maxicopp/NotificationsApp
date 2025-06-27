@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   RefreshControl,
   Platform,
   StyleSheet,
+  Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -193,6 +194,9 @@ export const NotificationListScreen: React.FC = () => {
   const { handleRefresh, isRefreshing, canRefresh } = useNotificationRefresh();
   const { colors, isDark, spacing } = useTheme();
 
+  // Animaciones para FAB
+  const fabScaleAnim = useRef(new Animated.Value(1)).current;
+
   const renderNotificationItem = ({ item }: { item: Notification }) => (
     <NotificationItem
       notification={item}
@@ -269,6 +273,19 @@ export const NotificationListScreen: React.FC = () => {
   );
 
   const handleFabPress = () => {
+    Animated.sequence([
+      Animated.timing(fabScaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fabScaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
     generateTestNotification();
   };
 
@@ -318,24 +335,29 @@ export const NotificationListScreen: React.FC = () => {
         }
       />
 
-      {/* FAB simplificado sin animaciones */}
-      <TouchableOpacity
-        style={[
-          Styles.notificationList.fab,
-          componentStyles.fabContainer,
-          Platform.OS === 'ios'
-            ? componentStyles.fabFixedIOS
-            : componentStyles.fabFixed,
-          {
-            backgroundColor: colors.primary,
-            shadowOffset: { width: 0, height: 4 },
-          },
-        ]}
-        onPress={handleFabPress}
-        activeOpacity={0.8}
+      <Animated.View
+        style={{
+          transform: [{ scale: fabScaleAnim }],
+        }}
       >
-        <Text style={componentStyles.fabText}>+</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            Styles.notificationList.fab,
+            componentStyles.fabContainer,
+            Platform.OS === 'ios'
+              ? componentStyles.fabFixedIOS
+              : componentStyles.fabFixed,
+            {
+              backgroundColor: colors.primary,
+              shadowOffset: { width: 0, height: 4 },
+            },
+          ]}
+          onPress={handleFabPress}
+          activeOpacity={0.8}
+        >
+          <Text style={componentStyles.fabText}>+</Text>
+        </TouchableOpacity>
+      </Animated.View>
     </SafeAreaView>
   );
 };

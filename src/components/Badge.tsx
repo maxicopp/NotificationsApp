@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import { Styles, useTheme } from '../theme';
 
 interface BadgeProps {
@@ -26,6 +26,26 @@ export const Badge: React.FC<BadgeProps> = ({
   size = 'medium',
 }) => {
   const { colors } = useTheme();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const prevCountRef = useRef(count);
+
+  useEffect(() => {
+    if (count > prevCountRef.current && count > 0) {
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.3,
+          duration: 150,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+    prevCountRef.current = count;
+  }, [count, pulseAnim]);
 
   if (count <= 0) {
     return null;
@@ -63,27 +83,33 @@ export const Badge: React.FC<BadgeProps> = ({
   };
 
   return (
-    <View
-      style={[
-        Styles.badge.container,
-        sizeStyles[size],
-        {
-          backgroundColor,
-          shadowColor: backgroundColor,
-          shadowOffset: { width: 0, height: 2 },
-        },
-        badgeStyles.shadowStyle,
-      ]}
+    <Animated.View
+      style={{
+        transform: [{ scale: pulseAnim }],
+      }}
     >
-      <Text
+      <View
         style={[
-          Styles.badge.text,
-          textSizeStyles[size],
-          { color: finalTextColor },
+          Styles.badge.container,
+          sizeStyles[size],
+          {
+            backgroundColor,
+            shadowColor: backgroundColor,
+            shadowOffset: { width: 0, height: 2 },
+          },
+          badgeStyles.shadowStyle,
         ]}
       >
-        {displayCount}
-      </Text>
-    </View>
+        <Text
+          style={[
+            Styles.badge.text,
+            textSizeStyles[size],
+            { color: finalTextColor },
+          ]}
+        >
+          {displayCount}
+        </Text>
+      </View>
+    </Animated.View>
   );
 };
