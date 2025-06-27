@@ -80,7 +80,12 @@ yarn lint          # Verificar código con ESLint
 ```
 
 ## Imágenes
-<img width="1087" alt="Screenshot 2025-06-27 at 5 26 21 PM" src="https://github.com/user-attachments/assets/7836d5e9-6c88-441e-808e-c8d7f7f0d55f" />
-<img width="1109" alt="Screenshot 2025-06-27 at 5 26 10 PM" src="https://github.com/user-attachments/assets/af88ee77-2b83-410e-83f7-adbe45aa90b3" />
-<img width="1235" alt="Screenshot 2025-06-27 at 5 25 51 PM" src="https://github.com/user-attachments/assets/8a01c3cb-2cc4-4779-a492-1c000caa4532" />
+<img width="1091" alt="Screenshot 2025-06-27 at 6 22 20 PM" src="https://github.com/user-attachments/assets/4448320b-e69f-425e-bf4c-8b76d22c9ce2" />
+<img width="1103" alt="Screenshot 2025-06-27 at 6 22 08 PM" src="https://github.com/user-attachments/assets/be08f7b6-dfd8-4633-a106-5e6f5731beaf" />
+<img width="1133" alt="Screenshot 2025-06-27 at 6 21 59 PM" src="https://github.com/user-attachments/assets/deb611cd-55d8-4408-ace5-392df1ae0e06" />
+<img width="1171" alt="Screenshot 2025-06-27 at 6 21 34 PM" src="https://github.com/user-attachments/assets/00f48f0f-0b61-480d-a31f-0a65dd9f5aab" />
+<img width="1083" alt="Screenshot 2025-06-27 at 6 21 15 PM" src="https://github.com/user-attachments/assets/8ccdf7bc-6c0d-4d47-b9ec-1f1816bec4fd" />
+<img width="1122" alt="Screenshot 2025-06-27 at 6 21 02 PM" src="https://github.com/user-attachments/assets/a675f98d-cf5f-4cc2-944b-e18c50422893" />
+<img width="1125" alt="Screenshot 2025-06-27 at 6 20 43 PM" src="https://github.com/user-attachments/assets/d32c5112-2ca4-4bcb-afc7-275272a6eed5" />
+
 
