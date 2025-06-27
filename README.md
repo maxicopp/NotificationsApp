@@ -7,8 +7,8 @@ Aplicación React Native que simula un sistema de recepción de alertas vía pus
 - Listado de notificaciones estilo inbox
 - Simulación de notificaciones push
 - Distinción visual entre leídas/no leídas
-- Pantalla de detalle completa
-- Animaciones fluidas
+- Pantalla de detalle 
+- Animaciones 
 - Soporte para tema claro/oscuro
 - Badge con contador de no leídas
 
