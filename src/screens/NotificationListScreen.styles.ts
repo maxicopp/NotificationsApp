@@ -34,7 +34,6 @@ export const notificationListStyles = StyleSheet.create({
     elevation: 8,
   },
   emptyButtonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -73,7 +72,6 @@ export const notificationListStyles = StyleSheet.create({
     alignItems: 'center',
   },
   fabText: {
-    color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '300',
   },
@@ -84,7 +82,6 @@ export const notificationListStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 80,
     right: 20,
-    shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
@@ -93,7 +90,6 @@ export const notificationListStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 100,
     right: 20,
-    shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,

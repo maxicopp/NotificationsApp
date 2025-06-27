@@ -15,6 +15,7 @@ export const lightTheme = {
   textPrimary: '#000000',
   textSecondary: '#6D6D80',
   textTertiary: '#8E8E93',
+  textOnPrimary: '#FFFFFF',
 
   // Bordes y separadores
   border: '#E5E5EA',
@@ -23,6 +24,7 @@ export const lightTheme = {
   // Sombras
   shadow: 'rgba(0, 0, 0, 0.08)',
   shadowStrong: 'rgba(0, 0, 0, 0.15)',
+  shadowDefault: '#000000',
 
   // Colores de alerta
   info: '#3478F6', // Azul 500
@@ -35,6 +37,15 @@ export const lightTheme = {
   successBg: '#EBF9F0',
   warningBg: '#FFF4E6',
   errorBg: '#FFEBEA',
+
+  // Overlays y transparencias
+  overlayDark: 'rgba(0, 0, 0, 0.1)',
+  overlayLight: 'rgba(255, 255, 255, 0.2)',
+
+  // Toast y notificaciones temporales
+  toastBackground: '#323232',
+  toastText: '#FFFFFF',
+  toastAction: '#4CAF50',
 };
 
 export const darkTheme = {
@@ -48,6 +59,7 @@ export const darkTheme = {
   textPrimary: '#FFFFFF',
   textSecondary: '#EBEBF5',
   textTertiary: '#8E8E93',
+  textOnPrimary: '#FFFFFF',
 
   // Bordes y separadores
   border: '#3A3A3C',
@@ -56,6 +68,7 @@ export const darkTheme = {
   // Sombras
   shadow: 'rgba(0, 0, 0, 0.3)',
   shadowStrong: 'rgba(0, 0, 0, 0.5)',
+  shadowDefault: '#000000',
 
   // Colores de alerta
   info: '#4D8DFF', // Azul 500 dark
@@ -68,6 +81,15 @@ export const darkTheme = {
   successBg: '#1A2F24',
   warningBg: '#2B2418',
   errorBg: '#2B1A1A',
+
+  // Overlays y transparencias
+  overlayDark: 'rgba(0, 0, 0, 0.3)',
+  overlayLight: 'rgba(255, 255, 255, 0.1)',
+
+  // Toast y notificaciones temporales
+  toastBackground: '#2C2C2E',
+  toastText: '#FFFFFF',
+  toastAction: '#30D158',
 };
 
 export const ThemedColors = () =>

@@ -115,7 +115,12 @@ export const NotificationDetailScreen: React.FC = () => {
             },
           ]}
         >
-          <Text style={notificationDetailStyles.notFoundButtonText}>
+          <Text
+            style={[
+              notificationDetailStyles.notFoundButtonText,
+              { color: colors.textOnPrimary },
+            ]}
+          >
             ← Volver
           </Text>
         </TouchableOpacity>
@@ -213,9 +218,19 @@ export const NotificationDetailScreen: React.FC = () => {
               },
             ]}
           >
-            <View style={notificationDetailStyles.bannerOverlay} />
+            <View
+              style={[
+                notificationDetailStyles.bannerOverlay,
+                { backgroundColor: colors.overlayDark },
+              ]}
+            />
 
-            <View style={notificationDetailStyles.emojiContainer}>
+            <View
+              style={[
+                notificationDetailStyles.emojiContainer,
+                { backgroundColor: colors.overlayLight },
+              ]}
+            >
               <Text style={notificationDetailStyles.emojiText}>{emoji}</Text>
             </View>
           </View>

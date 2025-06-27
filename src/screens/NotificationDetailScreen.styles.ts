@@ -28,7 +28,6 @@ export const notificationDetailStyles = StyleSheet.create({
     borderRadius: 22,
   },
   notFoundButtonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -48,13 +47,11 @@ export const notificationDetailStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   emojiContainer: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },

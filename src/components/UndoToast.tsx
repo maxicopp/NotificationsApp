@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { Text, TouchableOpacity, Animated } from 'react-native';
 import { undoToastStyles, width } from './UndoToast.styles';
+import { useTheme } from '../theme';
 
 interface UndoToastProps {
   visible: boolean;
@@ -17,6 +18,7 @@ export const UndoToast: React.FC<UndoToastProps> = ({
   onDismiss,
   duration = 4000,
 }) => {
+  const { colors } = useTheme();
   const translateY = useRef(new Animated.Value(100)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const progressWidth = useRef(new Animated.Value(width - 32)).current;
@@ -97,6 +99,8 @@ export const UndoToast: React.FC<UndoToastProps> = ({
       style={[
         undoToastStyles.container,
         {
+          backgroundColor: colors.toastBackground,
+          shadowColor: colors.shadowDefault,
           transform: [{ translateY }],
           opacity,
         },
@@ -106,19 +110,24 @@ export const UndoToast: React.FC<UndoToastProps> = ({
         style={[
           undoToastStyles.progressBar,
           {
+            backgroundColor: colors.toastAction,
             width: progressWidth,
           },
         ]}
       />
 
-      <Text style={undoToastStyles.message}>{message}</Text>
+      <Text style={[undoToastStyles.message, { color: colors.toastText }]}>
+        {message}
+      </Text>
 
       <TouchableOpacity
         style={undoToastStyles.undoButton}
         onPress={handleUndo}
         activeOpacity={0.7}
       >
-        <Text style={undoToastStyles.undoText}>Deshacer</Text>
+        <Text style={[undoToastStyles.undoText, { color: colors.toastAction }]}>
+          Deshacer
+        </Text>
       </TouchableOpacity>
     </Animated.View>
   );

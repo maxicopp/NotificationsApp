@@ -161,7 +161,12 @@ export const NotificationListScreen: React.FC = () => {
         onPress={handleGenerateTest}
         activeOpacity={0.8}
       >
-        <Text style={notificationListStyles.emptyButtonText}>
+        <Text
+          style={[
+            notificationListStyles.emptyButtonText,
+            { color: colors.textOnPrimary },
+          ]}
+        >
           Generar notificación de prueba
         </Text>
       </TouchableOpacity>
@@ -236,13 +241,21 @@ export const NotificationListScreen: React.FC = () => {
               : notificationListStyles.fabFixed,
             {
               backgroundColor: colors.primary,
+              shadowColor: colors.shadowDefault,
               shadowOffset: { width: 0, height: 4 },
             },
           ]}
           onPress={handleFabPress}
           activeOpacity={0.8}
         >
-          <Text style={notificationListStyles.fabText}>+</Text>
+          <Text
+            style={[
+              notificationListStyles.fabText,
+              { color: colors.textOnPrimary },
+            ]}
+          >
+            +
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>

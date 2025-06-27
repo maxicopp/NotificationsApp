@@ -8,14 +8,12 @@ export const undoToastStyles = StyleSheet.create({
     bottom: 100,
     left: 16,
     right: 16,
-    backgroundColor: '#323232',
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -26,7 +24,6 @@ export const undoToastStyles = StyleSheet.create({
     zIndex: 1000,
   },
   message: {
-    color: '#FFFFFF',
     fontSize: 14,
     flex: 1,
     marginRight: 16,
@@ -36,7 +33,6 @@ export const undoToastStyles = StyleSheet.create({
     paddingVertical: 6,
   },
   undoText: {
-    color: '#4CAF50',
     fontSize: 14,
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -46,7 +42,6 @@ export const undoToastStyles = StyleSheet.create({
     bottom: 0,
     left: 0,
     height: 2,
-    backgroundColor: '#4CAF50',
     borderRadius: 1,
   },
 });

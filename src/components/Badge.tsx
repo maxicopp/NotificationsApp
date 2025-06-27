@@ -46,7 +46,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const displayCount = count > maxCount ? `${maxCount}+` : count.toString();
   const backgroundColor = color ?? colors.error;
-  const finalTextColor = textColor ?? '#FFFFFF';
+  const finalTextColor = textColor ?? colors.textOnPrimary;
 
   const sizeStyles = {
     small: {
