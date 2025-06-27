@@ -52,10 +52,14 @@ export const notificationListStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     padding: 4,
+    marginLeft: 16,
   },
   clearButton: {
     borderRadius: 16,
-    borderWidth: 1,
+    borderWidth: 0,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: 'transparent',
   },
   clearButtonText: {
     fontSize: 12,

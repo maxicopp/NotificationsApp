@@ -30,7 +30,6 @@ type NotificationListNavigationProp = StackNavigationProp<
 
 interface ListHeaderProps {
   colors: any;
-  spacing: any;
   unreadCount: number;
   showClearButton: boolean;
   onClearAll: () => void;
@@ -38,7 +37,6 @@ interface ListHeaderProps {
 
 const ListHeaderComponent: React.FC<ListHeaderProps> = ({
   colors,
-  spacing,
   unreadCount,
   showClearButton,
   onClearAll,
@@ -59,22 +57,14 @@ const ListHeaderComponent: React.FC<ListHeaderProps> = ({
     {showClearButton && (
       <View style={notificationListStyles.headerActions}>
         <TouchableOpacity
-          style={[
-            notificationListStyles.clearButton,
-            {
-              paddingHorizontal: spacing.m,
-              paddingVertical: spacing.s,
-              borderColor: colors.border,
-              backgroundColor: colors.surface1,
-            },
-          ]}
+          style={notificationListStyles.clearButton}
           onPress={onClearAll}
           activeOpacity={0.7}
         >
           <Text
             style={[
               notificationListStyles.clearButtonText,
-              { color: colors.textSecondary },
+              { color: colors.primary },
             ]}
           >
             Limpiar todo
@@ -202,7 +192,6 @@ export const NotificationListScreen: React.FC = () => {
         ListHeaderComponent={
           <ListHeaderComponent
             colors={colors}
-            spacing={spacing}
             unreadCount={unreadCount}
             showClearButton={showClearButton}
             onClearAll={handleClearAll}
