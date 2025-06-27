@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  StyleSheet,
   Animated,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
@@ -15,6 +14,7 @@ import { RootStackParamList } from '../types';
 import { useNotifications } from '../context/NotificationContext';
 import { Styles, useTheme, AlertEmojis, AlertColors } from '../theme';
 import { useDateFormatter } from '../hooks';
+import { notificationDetailStyles } from './NotificationDetailScreen.styles';
 
 type NotificationDetailNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -26,102 +26,6 @@ type NotificationDetailRouteProp = RouteProp<
   'NotificationDetail'
 >;
 
-const componentStyles = StyleSheet.create({
-  notFoundContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  notFoundIconContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  notFoundIcon: {
-    fontSize: 32,
-  },
-  backIconText: {
-    textAlign: 'center',
-    includeFontPadding: false,
-    textAlignVertical: 'center',
-  },
-  notFoundTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  notFoundButton: {
-    borderRadius: 22,
-  },
-  notFoundButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  animatedContainer: {
-    flex: 1,
-  },
-  bannerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  bannerOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.1)',
-  },
-  emojiContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emojiText: {
-    fontSize: 18,
-  },
-  metadataContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderTopWidth: 1,
-  },
-  metadataDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  metadataText: {
-    flex: 1,
-  },
-  spacer: {
-    height: 32, // spacing.xxl
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  animatedWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  flexContainer: {
-    flex: 1,
-  },
-  headerDynamic: {
-    height: 'auto',
-  },
-  headerFixed: {
-    height: 88,
-  },
-});
-
 export const NotificationDetailScreen: React.FC = () => {
   const navigation = useNavigation<NotificationDetailNavigationProp>();
   const route = useRoute<NotificationDetailRouteProp>();
@@ -129,7 +33,6 @@ export const NotificationDetailScreen: React.FC = () => {
   const { colors, isDark, spacing } = useTheme();
   const { formatFullDate } = useDateFormatter();
 
-  // Animación refs
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
   const scaleAnim = useRef(new Animated.Value(0.95)).current;
@@ -173,25 +76,25 @@ export const NotificationDetailScreen: React.FC = () => {
       <SafeAreaView
         style={[
           Styles.notificationDetail.container,
-          componentStyles.notFoundContainer,
+          notificationDetailStyles.notFoundContainer,
           { backgroundColor: colors.background },
         ]}
       >
         <View
           style={[
-            componentStyles.notFoundIconContainer,
+            notificationDetailStyles.notFoundIconContainer,
             {
               backgroundColor: colors.surface2,
               marginBottom: spacing.xl,
             },
           ]}
         >
-          <Text style={componentStyles.notFoundIcon}>📭</Text>
+          <Text style={notificationDetailStyles.notFoundIcon}>📭</Text>
         </View>
 
         <Text
           style={[
-            componentStyles.notFoundTitle,
+            notificationDetailStyles.notFoundTitle,
             {
               color: colors.textPrimary,
               marginBottom: spacing.m,
@@ -204,7 +107,7 @@ export const NotificationDetailScreen: React.FC = () => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={[
-            componentStyles.notFoundButton,
+            notificationDetailStyles.notFoundButton,
             {
               paddingHorizontal: spacing.xl,
               paddingVertical: spacing.m,
@@ -212,7 +115,9 @@ export const NotificationDetailScreen: React.FC = () => {
             },
           ]}
         >
-          <Text style={componentStyles.notFoundButtonText}>← Volver</Text>
+          <Text style={notificationDetailStyles.notFoundButtonText}>
+            ← Volver
+          </Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -242,8 +147,8 @@ export const NotificationDetailScreen: React.FC = () => {
         style={[
           Styles.notificationDetail.header,
           Platform.OS === 'ios'
-            ? componentStyles.headerDynamic
-            : componentStyles.headerFixed,
+            ? notificationDetailStyles.headerDynamic
+            : notificationDetailStyles.headerFixed,
           {
             paddingTop:
               Platform.OS === 'ios' ? spacing.m : statusBarHeight + spacing.m,
@@ -262,7 +167,7 @@ export const NotificationDetailScreen: React.FC = () => {
           <Text
             style={[
               Styles.notificationDetail.backIcon,
-              componentStyles.backIconText,
+              notificationDetailStyles.backIconText,
               {
                 color: colors.primary,
                 ...(Platform.OS === 'android' && { lineHeight: 20 }),
@@ -302,16 +207,16 @@ export const NotificationDetailScreen: React.FC = () => {
         >
           <View
             style={[
-              componentStyles.bannerContainer,
+              notificationDetailStyles.bannerContainer,
               {
                 backgroundColor: alertColor,
               },
             ]}
           >
-            <View style={componentStyles.bannerOverlay} />
+            <View style={notificationDetailStyles.bannerOverlay} />
 
-            <View style={componentStyles.emojiContainer}>
-              <Text style={componentStyles.emojiText}>{emoji}</Text>
+            <View style={notificationDetailStyles.emojiContainer}>
+              <Text style={notificationDetailStyles.emojiText}>{emoji}</Text>
             </View>
           </View>
 
@@ -336,7 +241,7 @@ export const NotificationDetailScreen: React.FC = () => {
 
             <View
               style={[
-                componentStyles.metadataContainer,
+                notificationDetailStyles.metadataContainer,
                 {
                   borderTopColor: colors.border,
                   paddingTop: spacing.l,
@@ -346,7 +251,7 @@ export const NotificationDetailScreen: React.FC = () => {
             >
               <Text
                 style={[
-                  componentStyles.metadataText,
+                  notificationDetailStyles.metadataText,
                   {
                     color: colors.textTertiary,
                   },
@@ -355,7 +260,7 @@ export const NotificationDetailScreen: React.FC = () => {
                 {formatFullDate(notification.timestamp)}
               </Text>
 
-              <View style={componentStyles.spacer} />
+              <View style={notificationDetailStyles.spacer} />
 
               {notification.isRead && (
                 <View

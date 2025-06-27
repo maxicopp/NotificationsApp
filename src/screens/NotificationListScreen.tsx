@@ -8,7 +8,6 @@ import {
   StatusBar,
   RefreshControl,
   Platform,
-  StyleSheet,
   Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -22,110 +21,12 @@ import { NotificationItem } from '../components/NotificationItem';
 import { Badge } from '../components/Badge';
 import { Notification, RootStackParamList } from '../types';
 import { Styles, useTheme } from '../theme';
+import { notificationListStyles } from './NotificationListScreen.styles';
 
 type NotificationListNavigationProp = StackNavigationProp<
   RootStackParamList,
   'NotificationList'
 >;
-
-const componentStyles = StyleSheet.create({
-  emptyStateContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 120,
-  },
-  emptyIconContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyIcon: {
-    fontSize: 48,
-  },
-  emptyTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  emptyDescription: {
-    fontSize: 16,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  emptyButton: {
-    borderRadius: 22,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  emptyButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  headerSubtitle: {
-    fontSize: 15,
-    marginTop: 2,
-    fontWeight: '400',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12, // spacing.m
-  },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12, // spacing.m
-  },
-  clearButton: {
-    borderRadius: 16,
-    borderWidth: 1,
-  },
-  clearButtonText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  listContainer: {
-    flex: 1,
-  },
-  fabContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  fabText: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '300',
-  },
-  flexOne: {
-    flex: 1,
-  },
-  fabFixed: {
-    position: 'absolute',
-    bottom: 80,
-    right: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  fabFixedIOS: {
-    position: 'absolute',
-    bottom: 100,
-    right: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-});
 
 interface ListHeaderProps {
   colors: any;
@@ -143,7 +44,7 @@ const ListHeaderComponent: React.FC<ListHeaderProps> = ({
   onClearAll,
 }) => (
   <View style={Styles.notificationList.header}>
-    <View style={componentStyles.titleContainer}>
+    <View style={notificationListStyles.titleContainer}>
       <Text
         style={[
           Styles.notificationList.headerTitle,
@@ -156,10 +57,10 @@ const ListHeaderComponent: React.FC<ListHeaderProps> = ({
     </View>
 
     {showClearButton && (
-      <View style={componentStyles.headerActions}>
+      <View style={notificationListStyles.headerActions}>
         <TouchableOpacity
           style={[
-            componentStyles.clearButton,
+            notificationListStyles.clearButton,
             {
               paddingHorizontal: spacing.m,
               paddingVertical: spacing.s,
@@ -172,7 +73,7 @@ const ListHeaderComponent: React.FC<ListHeaderProps> = ({
         >
           <Text
             style={[
-              componentStyles.clearButtonText,
+              notificationListStyles.clearButtonText,
               { color: colors.textSecondary },
             ]}
           >
@@ -208,25 +109,25 @@ export const NotificationListScreen: React.FC = () => {
   const renderEmptyState = () => (
     <View
       style={[
-        componentStyles.emptyStateContainer,
+        notificationListStyles.emptyStateContainer,
         { paddingHorizontal: spacing.xl },
       ]}
     >
       <View
         style={[
-          componentStyles.emptyIconContainer,
+          notificationListStyles.emptyIconContainer,
           {
             backgroundColor: colors.surface2,
             marginBottom: spacing.xl,
           },
         ]}
       >
-        <Text style={componentStyles.emptyIcon}>📬</Text>
+        <Text style={notificationListStyles.emptyIcon}>📬</Text>
       </View>
 
       <Text
         style={[
-          componentStyles.emptyTitle,
+          notificationListStyles.emptyTitle,
           {
             color: colors.textPrimary,
             marginBottom: spacing.m,
@@ -238,7 +139,7 @@ export const NotificationListScreen: React.FC = () => {
 
       <Text
         style={[
-          componentStyles.emptyDescription,
+          notificationListStyles.emptyDescription,
           {
             color: colors.textSecondary,
             marginBottom: spacing.xl,
@@ -250,7 +151,7 @@ export const NotificationListScreen: React.FC = () => {
 
       <TouchableOpacity
         style={[
-          componentStyles.emptyButton,
+          notificationListStyles.emptyButton,
           {
             paddingHorizontal: spacing.xl,
             paddingVertical: spacing.m,
@@ -260,7 +161,7 @@ export const NotificationListScreen: React.FC = () => {
         onPress={handleGenerateTest}
         activeOpacity={0.8}
       >
-        <Text style={componentStyles.emptyButtonText}>
+        <Text style={notificationListStyles.emptyButtonText}>
           Generar notificación de prueba
         </Text>
       </TouchableOpacity>
@@ -288,7 +189,7 @@ export const NotificationListScreen: React.FC = () => {
       />
 
       <FlatList
-        style={componentStyles.listContainer}
+        style={notificationListStyles.listContainer}
         data={notifications}
         renderItem={renderNotificationItem}
         keyExtractor={item => item.id}
@@ -315,7 +216,9 @@ export const NotificationListScreen: React.FC = () => {
           />
         }
         contentContainerStyle={
-          notifications.length === 0 ? componentStyles.flexOne : undefined
+          notifications.length === 0
+            ? notificationListStyles.flexOne
+            : undefined
         }
       />
 
@@ -327,10 +230,10 @@ export const NotificationListScreen: React.FC = () => {
         <TouchableOpacity
           style={[
             Styles.notificationList.fab,
-            componentStyles.fabContainer,
+            notificationListStyles.fabContainer,
             Platform.OS === 'ios'
-              ? componentStyles.fabFixedIOS
-              : componentStyles.fabFixed,
+              ? notificationListStyles.fabFixedIOS
+              : notificationListStyles.fabFixed,
             {
               backgroundColor: colors.primary,
               shadowOffset: { width: 0, height: 4 },
@@ -339,7 +242,7 @@ export const NotificationListScreen: React.FC = () => {
           onPress={handleFabPress}
           activeOpacity={0.8}
         >
-          <Text style={componentStyles.fabText}>+</Text>
+          <Text style={notificationListStyles.fabText}>+</Text>
         </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>

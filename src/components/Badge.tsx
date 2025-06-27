@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Styles, useTheme } from '../theme';
+import { badgeStyles } from './Badge.styles';
 
 interface BadgeProps {
   count: number;
@@ -9,14 +10,6 @@ interface BadgeProps {
   textColor?: string;
   size?: 'small' | 'medium' | 'large';
 }
-
-const badgeStyles = StyleSheet.create({
-  shadowStyle: {
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-});
 
 export const Badge: React.FC<BadgeProps> = ({
   count,

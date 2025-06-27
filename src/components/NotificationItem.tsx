@@ -1,61 +1,14 @@
 import React, { useLayoutEffect, useRef, useState, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { Notification } from '../types';
 import { Styles, useTheme, AlertEmojis, AlertColors } from '../theme';
 import { useNotificationItemAnimation, useDateFormatter } from '../hooks';
+import { notificationItemStyles } from './NotificationItem.styles';
 
 interface NotificationItemProps {
   notification: Notification;
   onPress: () => void;
 }
-
-const componentStyles = StyleSheet.create({
-  timestampContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  unreadDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    marginLeft: 8,
-  },
-  unreadBorder: {
-    borderWidth: 0.5,
-  },
-  newItemBorder: {
-    borderWidth: 1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  readOpacity: {
-    opacity: 0.7,
-  },
-  unreadOpacity: {
-    opacity: 1.0,
-  },
-  readDescriptionOpacity: {
-    opacity: 0.6,
-  },
-  unreadDescriptionOpacity: {
-    opacity: 0.85,
-  },
-  readTimestampOpacity: {
-    opacity: 0.5,
-  },
-  unreadTimestampOpacity: {
-    opacity: 0.7,
-  },
-});
 
 export const NotificationItem: React.FC<NotificationItemProps> = ({
   notification,
@@ -113,8 +66,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
           Styles.notificationItem.card,
           cardStyle,
           dynamicCardStyle,
-          notification.isRead ? {} : componentStyles.unreadBorder,
-          isNewItem ? componentStyles.newItemBorder : {},
+          notification.isRead ? {} : notificationItemStyles.unreadBorder,
+          isNewItem ? notificationItemStyles.newItemBorder : {},
         ]}
         onPress={onPress}
         activeOpacity={0.8}
@@ -149,8 +102,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                 color: colors.textPrimary,
               },
               notification.isRead
-                ? componentStyles.readOpacity
-                : componentStyles.unreadOpacity,
+                ? notificationItemStyles.readOpacity
+                : notificationItemStyles.unreadOpacity,
             ]}
             numberOfLines={1}
             ellipsizeMode="tail"
@@ -165,8 +118,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                 color: colors.textSecondary,
               },
               notification.isRead
-                ? componentStyles.readDescriptionOpacity
-                : componentStyles.unreadDescriptionOpacity,
+                ? notificationItemStyles.readDescriptionOpacity
+                : notificationItemStyles.unreadDescriptionOpacity,
             ]}
             numberOfLines={2}
             ellipsizeMode="tail"
@@ -174,7 +127,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
             {notification.description}
           </Text>
 
-          <View style={componentStyles.timestampContainer}>
+          <View style={notificationItemStyles.timestampContainer}>
             <Text
               style={[
                 Styles.notificationItem.timestamp,
@@ -182,8 +135,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
                   color: colors.textTertiary,
                 },
                 notification.isRead
-                  ? componentStyles.readTimestampOpacity
-                  : componentStyles.unreadTimestampOpacity,
+                  ? notificationItemStyles.readTimestampOpacity
+                  : notificationItemStyles.unreadTimestampOpacity,
               ]}
             >
               {formatTime(notification.timestamp)}
@@ -192,7 +145,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
             {!notification.isRead && (
               <View
                 style={[
-                  componentStyles.unreadDot,
+                  notificationItemStyles.unreadDot,
                   { backgroundColor: alertColor },
                 ]}
               />
